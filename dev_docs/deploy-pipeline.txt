@@ -1,8 +1,7 @@
-Add the server as a remote repository.
-Use name: deploy
-enter your username
+Add the production server as a remote repository.
+ssh public key needs to manually be moved to server
 
-git remote add deploy ssh://[user]@188.166.103.233/var/deploy_repos/static-website.git/
+git remote add production ssh://git@188.166.103.233/var/deploy_repos/static-website.git/
 
 Now you can push changes to the productionserver with:
-git push deploy
+git push production
