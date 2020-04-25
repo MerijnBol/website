@@ -1,123 +1,166 @@
 * {
-	box-sizing:border-box;
+    box-sizing: border-box;
 }
 html {
-	height: 100%;
-	width:100%;
+    height: 100%;
+    width: 100%;
 }
 body {
-	margin:0px;
-	padding:0px;
-	height: 100%;
-	width:100%;
-	background-color: black;
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    width: 100%;
+    background-color: black;
 }
 /* ----------------------- setup of layout and column design ----------*/
-.col-1 {width:10%;}
-.col-2 {width:20%;}
-.col-3 {width:30%;}
-.col-4 {width:40%;}
-.col-5 {width:50%;}
-.col-6 {width:60%;}
-.col-7 {width:70%;}
-.col-8 {width:80%;}
-.col-9 {width:90%;}
-.col-10 {width:100%;}
+.col-1 {
+    width: 10%;
+}
+.col-2 {
+    width: 20%;
+}
+.col-3 {
+    width: 30%;
+}
+.col-4 {
+    width: 40%;
+}
+.col-5 {
+    width: 50%;
+}
+.col-6 {
+    width: 60%;
+}
+.col-7 {
+    width: 70%;
+}
+.col-8 {
+    width: 80%;
+}
+.col-9 {
+    width: 90%;
+}
+.col-10 {
+    width: 100%;
+}
 [class*="col-"] {
-	float:left;
-	height:100%;
-	position: relative;
+    float: left;
+    height: 100%;
+    position: relative;
 }
 
-.row-1 {height:18%;}
-.row-2 {height:18%;}
-.row-3 {height:10%;}
-.row-4 {height:08%;}
-.row-5 {height:10%;}
-.row-6 {height:18%;}
-.row-7 {height:18%;}
+.row-1 {
+    height: 18%;
+}
+.row-2 {
+    height: 18%;
+}
+.row-3 {
+    height: 10%;
+}
+.row-4 {
+    height: 08%;
+}
+.row-5 {
+    height: 10%;
+}
+.row-6 {
+    height: 18%;
+}
+.row-7 {
+    height: 18%;
+}
 [class*="row-"] {
-	text-align: center;
-
+    text-align: center;
 }
-[class*="row-"]::after { /* prevent faults in floating boxes */
-	content: "";
+[class*="row-"]::after {
+    /* prevent faults in floating boxes */
+    content: "";
     clear: both;
     display: table;
 }
 
-#viewport_lock { /* outer div to contain layout */
-	background-color: white;
-	border:5px solid black;
-	padding:10px 10px;
-	min-width: 421px;
-	height: 100%;
-	min-height: 640px;
+#viewport_lock {
+    /* outer div to contain layout */
+    background-color: white;
+    border: 5px solid black;
+    padding: 10px 10px;
+    min-width: 421px;
+    height: 100%;
+    min-height: 640px;
 }
-@media only screen and (min-width:670px ){ /* when screen large > fix width */
-	/* for large screens */
-	#viewport_lock {
-		width:670px;
-		margin-left: auto;
-		margin-right: auto;
-	}
+@media only screen and (min-width: 670px) {
+    /* when screen large > fix width */
+    /* for large screens */
+    #viewport_lock {
+        width: 670px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
-@media only screen and (min-height:920px ) { /* max height */
-	#viewport_lock {
-		height: 920px;
-	}
+@media only screen and (min-height: 920px) {
+    /* max height */
+    #viewport_lock {
+        height: 920px;
+    }
 }
 /* dimensioning of icons */
-.button, .dice { 
-	width:auto;
-	height:70%;
-	position:absolute; /*position/trbl/margin center the img */
-	top:0; right:0; bottom: 0; left: 0;
-	margin:auto;
+.button,
+.dice {
+    width: auto;
+    height: 70%;
+    position: absolute; /*position/trbl/margin center the img */
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
 }
 .lost_units {
-	display: inline;
+    display: inline;
 }
-.lost_units p, .lost_units img {
-	display: inline-block;
-	vertical-align: middle;
+.lost_units p,
+.lost_units img {
+    display: inline-block;
+    vertical-align: middle;
 }
 p.lost_units {
-	font-size: 14pt;
-	font-weight: bold;
-	vertical-align: middle;
+    font-size: 14pt;
+    font-weight: bold;
+    vertical-align: middle;
 }
 .lost_units img {
-	height:60%;
-	width:auto;
+    height: 60%;
+    width: auto;
 }
 /*----------------------------------------Styling --------------------*/
 .MenuButton {
-	background-color:rgba(153, 153, 153,0.8);
-	border:3px solid black;
-	border-radius: 25px;
-	display: inline-block;
-	height:50px;
-	line-height: 45px;
-	width:140px;
+    background-color: rgba(153, 153, 153, 0.8);
+    border: 3px solid black;
+    border-radius: 25px;
+    display: inline-block;
+    height: 50px;
+    line-height: 45px;
+    width: 140px;
 }
-.center_inner_div::before{ /*the inner element needs to be inline(block)*/
-	content: "";
-	height: 100%;
-	display: inline-block;
-	vertical-align: middle;
+.center_inner_div::before {
+    /*the inner element needs to be inline(block)*/
+    content: "";
+    height: 100%;
+    display: inline-block;
+    vertical-align: middle;
 }
 .center_inner_div input {
-	display:inline-block;
-	width:50%;
-	text-align: left;
+    display: inline-block;
+    width: 50%;
+    text-align: left;
 }
 .align-right {
-	text-align: right;
+    text-align: right;
 }
 .red-background {
-	background-color: rgb(188,0,18);
+    background-color: rgb(188, 0, 18);
 }
 .blue-background {
-	background-color: rgb(0,80,229);
+    background-color: rgb(0, 80, 229);
 }
