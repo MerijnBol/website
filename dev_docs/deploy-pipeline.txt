@@ -1,3 +1,5 @@
-Add the server as a remote repository, which we call 'deploy':
-git remote add deploy ssh://merijn@merijnbol.nl/var/deploy_repos/static-website.git/
+Add the server as a remote repository.
+Use name: deploy
+enter your username
 
+git remote add deploy ssh://[user]@188.166.103.233/var/deploy_repos/static-website.git/
