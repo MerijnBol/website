@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+	<title>RISK Dices</title>
+	<link rel="stylesheet" type="text/css" href="CSS/mainstylesheet.css">
+	<script type="text/javascript" src="script/baseApp.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+</head>
+<body>
+<div id="viewport_lock">
+<div id="row_1" class="row-1 red-background">
+	<div id="" class="col-3">
+		<img id="" class="button" onclick="attackThree()" src="library/button_images/r_III.png">
+	</div>
+	<div id="" class="col-4">
+		<img id="" class="button" onclick="attackTwo()" src="library/button_images/r_II.png">
+	</div>
+	<div id="" class="col-3">
+		<img id="" class="button" onclick="attackOne()" src="library/button_images/r_I.png">
+	</div>
+</div>
+<div id="row_2" class="row-2 ">
+	<div id="" class="col-3">
+		<img id="dice_r3" class="dice" src="library/dice_images/rBase.png">
+	</div>
+	<div id="" class="col-4">
+		<img id="dice_r2" class="dice" src="library/dice_images/rBase.png">
+	</div>
+	<div id="" class="col-3">
+		<img id="dice_r1" class="dice" src="library/dice_images/rBase.png">
+	</div>
+</div>
+<div id="row_3" class="row-3">
+	<div id="" class="col-3 center_inner_div">
+		<input id="attacker_input" type="number" placeholder=" units">
+	</div>
+	<div  class="col-4 center_inner_div">
+		<p id="attacker_units_left" class="lost_units"></p>
+	</div>
+	<div id="" class="col-3 center_inner_div">
+		<div id="" class="lost_units ">
+			<img id="attackerLost_1" style="display:none;" class="" src="library/dice_images/rLost.png">
+			<img id="attackerLost_2" style="display:none;" class="" src="library/dice_images/rLost.png">
+		</div>
+	</div>
+</div>
+<div id="row_4" class="row-4">
+	<div id="" class="col-4 center_inner_div">
+		<div id="reset_button" class="MenuButton" onclick="engageConquest()">Start Conquest</div>
+	</div>
+	<div id="" class="col-2 center_inner_div"></div>
+	<div id="" class="col-4 center_inner_div">
+		<div id="reset_Conquest" style="display:none;" class="MenuButton" onclick="resetConquest()">Reset Conquest</div>
+	
+	</div>
+</div>
+<div id="row_5" class="row-5">
+	<div id="" class="col-3 center_inner_div">
+		<input id="defender_input" type="number" placeholder=" units">
+	</div>
+	<div  class="col-4 center_inner_div">
+		<p id="defender_units_left" class="lost_units"></p>
+	</div>
+	<div id="" class="col-3 center_inner_div">
+		<div id="" class="lost_units ">
+			<img id="defenderLost_1" style="display:none;" class="" src="library/dice_images/bLost.png">
+			<img id="defenderLost_2" style="display:none;" class="" src="library/dice_images/bLost.png">
+		</div>
+	</div>
+</div>
+<div id="row_6" class="row-6 ">
+	<div id="" class="col-1"></div>
+	<div id="" class="col-3">
+		<img id="dice_b1" class="dice" src="library/dice_images/bBase.png">
+	</div>
+	<div id="" class="col-2"></div>
+	<div id="" class="col-3">
+		<img id="dice_b2" class="dice" src="library/dice_images/bBase.png">
+	</div>
+	<div id="" class="col-1"></div>
+</div>
+<div id="row_7" class="row-7 blue-background">
+	<div id="" class="col-1"></div>
+	<div id="" class="col-3">
+		<img id="" class="button" onclick="defendOne()" src="library/button_images/b_I.png">
+	</div>
+	<div id="" class="col-2"></div>
+	<div id="" class="col-3">
+		<img id="" class="button" onclick="defendTwo()" src="library/button_images/b_II.png">
+	</div>
+	<div id="" class="col-1"></div>
+</div>
+</div>
+</body>
+</html>
