@@ -1,0 +1,3 @@
+Add the server as a remote repository, which we call 'deploy':
+git remote add deploy ssh://merijn@merijnbol.nl/var/deploy_repos/static-website.git/
+
