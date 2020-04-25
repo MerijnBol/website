@@ -3,3 +3,6 @@ Use name: deploy
 enter your username
 
 git remote add deploy ssh://[user]@188.166.103.233/var/deploy_repos/static-website.git/
+
+Now you can push changes to the productionserver with:
+git push deploy
