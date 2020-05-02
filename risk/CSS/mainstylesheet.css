@@ -123,24 +123,24 @@ body {
 }
 /* dimensioning of icons */
 .play-button {
-    position: relative;
-    top: 10%;
-    height: 80%;
-    width: 50px; /* 1:1 aspect ratio */
-    margin: 0 auto;
-    border-radius: 50%;
+    height: auto;
+    width: auto;
+    margin: 5mm auto;
+    border-radius: 2mm;
     border: 1mm solid var(--attack-red);
     background-color: var(--shade-3);
 }
+.play-button object {
+    height: 40px;
+    margin: 5mm 1mm;
+}
 .dice {
-    width: auto;
+    display: inline-block;
+    position: relative;
     height: 70%;
-    position: absolute; /*position/trbl/margin center the img */
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: auto;
+    top: 15%;
+    width: auto;
+    margin: 0 4mm;
 }
 .lost_units {
     display: inline;
@@ -183,4 +183,9 @@ p.lost_units {
 }
 .align-right {
     text-align: right;
+}
+
+/* html markup classes */
+.centeralign {
+    text-align: center;
 }
