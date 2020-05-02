@@ -1,6 +1,22 @@
 * {
     box-sizing: border-box;
 }
+
+/* ---------------- C O L O R S ------------------------------ */
+:root {
+    --white: white;
+    --background: black;
+    --background-soft: rgb(20, 20, 20);
+    /* theme color black, multiple shades */
+    --shade-0: black;
+    --shade-1: rgb(10, 10, 10);
+    --shade-2: rgb(20, 20, 20);
+    --shade-3: rgb(40, 40, 40);
+    --shade-4: rgb(80, 80, 80);
+    --attack-red: red;
+    --defend-blue: blue;
+}
+/* ----------- containers --------------- */
 html {
     height: 100%;
     width: 100%;
@@ -10,8 +26,9 @@ body {
     padding: 0px;
     height: 100%;
     width: 100%;
-    background-color: black;
+    background-color: var(--background);
 }
+
 /* ----------------------- setup of layout and column design ----------*/
 .col-1 {
     width: 10%;
@@ -80,11 +97,11 @@ body {
     display: table;
 }
 
-#viewport_lock {
+#game-area {
     /* outer div to contain layout */
-    background-color: white;
-    border: 5px solid black;
+    background-color: var(--background-soft);
     padding: 10px 10px;
+    width: 100%;
     min-width: 421px;
     height: 100%;
     min-height: 640px;
@@ -92,7 +109,7 @@ body {
 @media only screen and (min-width: 670px) {
     /* when screen large > fix width */
     /* for large screens */
-    #viewport_lock {
+    #game-area {
         width: 670px;
         margin-left: auto;
         margin-right: auto;
@@ -100,12 +117,21 @@ body {
 }
 @media only screen and (min-height: 920px) {
     /* max height */
-    #viewport_lock {
+    #game-area {
         height: 920px;
     }
 }
 /* dimensioning of icons */
-.button,
+.play-button {
+    position: relative;
+    top: 10%;
+    height: 80%;
+    width: 50px; /* 1:1 aspect ratio */
+    margin: 0 auto;
+    border-radius: 50%;
+    border: 1mm solid var(--attack-red);
+    background-color: var(--shade-3);
+}
 .dice {
     width: auto;
     height: 70%;
@@ -135,8 +161,8 @@ p.lost_units {
 }
 /*----------------------------------------Styling --------------------*/
 .MenuButton {
-    background-color: rgba(153, 153, 153, 0.8);
-    border: 3px solid black;
+    background-color: var(--shade-4);
+    border: 3px solid var(--background);
     border-radius: 25px;
     display: inline-block;
     height: 50px;
@@ -157,10 +183,4 @@ p.lost_units {
 }
 .align-right {
     text-align: right;
-}
-.red-background {
-    background-color: rgb(188, 0, 18);
-}
-.blue-background {
-    background-color: rgb(0, 80, 229);
 }

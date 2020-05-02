@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>RISK Dices</title>
+    <title>RISK Dice</title>
     <link rel="stylesheet" type="text/css" href="CSS/mainstylesheet.css">
     <script type="text/javascript" src="script/baseApp.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,32 +10,57 @@
 </head>
 
 <body>
-    <div id="viewport_lock">
-        <div id="row_1" class="row-1 red-background">
+    <div id="game-area">
+        <div id="row_1" class="row-1">
             <div id="" class="col-3">
-                <img id="" class="button" onclick="attackThree()"
-                    src="library/button_images/r_III.png">
+                <div class="play-button" onclick="attackThree()">
+
+                </div>
             </div>
             <div id="" class="col-4">
-                <img id="" class="button" onclick="attackTwo()"
-                    src="library/button_images/r_II.png">
+                <div class="play-button" onclick="attackTwo()">
+
+                </div>
             </div>
             <div id="" class="col-3">
-                <img id="" class="button" onclick="attackOne()" src="library/button_images/r_I.png">
+                <div class="play-button" onclick="attackOne()">
+
+                </div>
             </div>
         </div>
         <div id="row_2" class="row-2 ">
             <div id="" class="col-3">
-                <img id="dice_r3" class="dice" onclick="attackThree()"
-                    src="library/dice_images/rBase.png">
+                <svg id="dice_a3" class="dice" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512">
+                    <path d="M0 0h512v512H0z" fill="transparent" fill-opacity="1"></path>
+                    <g class="" style="touch-action: none;" transform="translate(0,0)">
+                        <path class="dice-number-path"
+                            d="M302.87 255.5a47.37 47.37 0 1 1-47.37-47.37 47.37 47.37 0 0 1 47.37 47.37zM484.5 428.02a56.48 56.48 0 0 1-56.48 56.48h-344a56.48 56.48 0 0 1-56.52-56.48v-344A56.48 56.48 0 0 1 83.98 27.5h344a56.48 56.48 0 0 1 56.52 56.48zm-20-344a36.48 36.48 0 0 0-36.48-36.52h-344A36.48 36.48 0 0 0 47.5 83.98v344a36.48 36.48 0 0 0 36.48 36.52h344a36.48 36.48 0 0 0 36.52-36.48z"
+                            fill="#fff" fill-opacity="1"></path>
+                    </g>
+                </svg>
             </div>
             <div id="" class="col-4">
-                <img id="dice_r2" class="dice" onclick="attackTwo()"
-                    src="library/dice_images/rBase.png">
+                <svg id="dice_a2" class="dice" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512">
+                    <path d="M0 0h512v512H0z" fill="transparent" fill-opacity="1"></path>
+                    <g class="" style="touch-action: none;" transform="translate(0,0)">
+                        <path class="dice-number-path"
+                            d="M302.87 255.5a47.37 47.37 0 1 1-47.37-47.37 47.37 47.37 0 0 1 47.37 47.37zM484.5 428.02a56.48 56.48 0 0 1-56.48 56.48h-344a56.48 56.48 0 0 1-56.52-56.48v-344A56.48 56.48 0 0 1 83.98 27.5h344a56.48 56.48 0 0 1 56.52 56.48zm-20-344a36.48 36.48 0 0 0-36.48-36.52h-344A36.48 36.48 0 0 0 47.5 83.98v344a36.48 36.48 0 0 0 36.48 36.52h344a36.48 36.48 0 0 0 36.52-36.48z"
+                            fill="#fff" fill-opacity="1"></path>
+                    </g>
+                </svg>
             </div>
             <div id="" class="col-3">
-                <img id="dice_r1" class="dice" onclick="attackOne()"
-                    src="library/dice_images/rBase.png">
+                <svg id="dice_a1" class="dice" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512">
+                    <path d="M0 0h512v512H0z" fill="transparent" fill-opacity="1"></path>
+                    <g class="" style="touch-action: none;" transform="translate(0,0)">
+                        <path class="dice-number-path"
+                            d="M302.87 255.5a47.37 47.37 0 1 1-47.37-47.37 47.37 47.37 0 0 1 47.37 47.37zM484.5 428.02a56.48 56.48 0 0 1-56.48 56.48h-344a56.48 56.48 0 0 1-56.52-56.48v-344A56.48 56.48 0 0 1 83.98 27.5h344a56.48 56.48 0 0 1 56.52 56.48zm-20-344a36.48 36.48 0 0 0-36.48-36.52h-344A36.48 36.48 0 0 0 47.5 83.98v344a36.48 36.48 0 0 0 36.48 36.52h344a36.48 36.48 0 0 0 36.52-36.48z"
+                            fill="#fff" fill-opacity="1"></path>
+                    </g>
+                </svg>
             </div>
         </div>
         <div id="row_3" class="row-3">
@@ -85,25 +110,28 @@
         <div id="row_6" class="row-6 ">
             <div id="" class="col-1"></div>
             <div id="" class="col-3">
-                <img id="dice_b1" class="dice" onclick="defendOne()"
+                <img id="dice_d1" class="dice" onclick="defendOne()"
                     src="library/dice_images/bBase.png">
             </div>
             <div id="" class="col-2"></div>
             <div id="" class="col-3">
-                <img id="dice_b2" class="dice" onclick="defendTwo()"
+                <img id="dice_d2" class="dice" onclick="defendTwo()"
                     src="library/dice_images/bBase.png">
             </div>
             <div id="" class="col-1"></div>
         </div>
-        <div id="row_7" class="row-7 blue-background">
+        <div id="row_7" class="row-7">
             <div id="" class="col-1"></div>
             <div id="" class="col-3">
-                <img id="" class="button" onclick="defendOne()" src="library/button_images/b_I.png">
+                <div class="play-button" onclick="defendOne()">
+
+                </div>
             </div>
             <div id="" class="col-2"></div>
             <div id="" class="col-3">
-                <img id="" class="button" onclick="defendTwo()"
-                    src="library/button_images/b_II.png">
+                <div class="play-button" onclick="defendTwo()">
+
+                </div>
             </div>
             <div id="" class="col-1"></div>
         </div>
