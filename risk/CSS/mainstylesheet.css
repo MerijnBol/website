@@ -64,6 +64,7 @@ body {
     float: left;
     height: 100%;
     position: relative;
+    text-align: center;
 }
 
 .row-1 {
@@ -104,7 +105,7 @@ body {
     width: 100%;
     min-width: 421px;
     height: 100%;
-    min-height: 640px;
+    min-height: 400px;
 }
 @media only screen and (min-width: 670px) {
     /* when screen large > fix width */
@@ -121,27 +122,41 @@ body {
         height: 920px;
     }
 }
+/* make the vertical aligns work */
+.play-button::before,
+[class*="col-"]::before {
+    /*the inner element needs to be inline(block)*/
+    content: "";
+    height: 100%;
+    display: inline-block;
+    vertical-align: middle;
+}
 /* dimensioning of icons */
 .play-button {
+    display: inline-block;
+    vertical-align: middle;
     height: auto;
-    width: auto;
-    margin: 5mm auto;
+    width: 25%;
+    margin: 0 3%;
     border-radius: 2mm;
     border: 1mm solid var(--attack-red);
     background-color: var(--shade-3);
 }
 .play-button object {
-    height: 40px;
-    margin: 5mm 1mm;
+    display: inline-block;
+    vertical-align: middle;
+    width: 25%;
+    height: auto;
+    margin: 10% 1%;
 }
+.unit-lost,
 .dice {
     display: inline-block;
-    position: relative;
-    height: 70%;
-    top: 15%;
-    width: auto;
-    margin: 0 4mm;
+    vertical-align: middle;
+    width: 25%;
+    margin: 0 1%;
 }
+
 .lost_units {
     display: inline;
 }
@@ -169,14 +184,7 @@ p.lost_units {
     line-height: 45px;
     width: 140px;
 }
-.center_inner_div::before {
-    /*the inner element needs to be inline(block)*/
-    content: "";
-    height: 100%;
-    display: inline-block;
-    vertical-align: middle;
-}
-.center_inner_div input {
+input {
     display: inline-block;
     width: 50%;
     text-align: left;

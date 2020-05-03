@@ -1,3 +1,11 @@
+// declerations
+var dice_a1, dice_a2, dice_a3, dice_d1, dice_d2, i;
+
+// declare and initialize
+var runningConquest = false;
+var attackerRolled = false;
+var attackerRolledOne = false; //defender can't throw 2 if attacker throws 1 dice.
+
 window.onload = function () {
     //Setup the dice objectclasses:
     class baseDice {
@@ -15,7 +23,6 @@ window.onload = function () {
             this.rollDice = function () {
                 //prototype method
                 this.value = random6();
-                console.log(this.name + " = " + this.value);
                 this.update_svg_drawing(dice_content["face_" + this.value]);
             };
             this.resetDice = function () {
@@ -34,14 +41,54 @@ window.onload = function () {
         }
     }
 
+    class killedUnit {
+        constructor(name) {
+            this._name = name;
+            this._svg_dom = document.getElementById(this._name);
+            this._svg_drawing_dom = this._svg_dom.getElementsByClassName(
+                ".dice-face-path"
+            )[0];
+            this.show_unit = function (boolean) {
+                if (boolean) {
+                    this._svg_drawing_dom.setAttribute(
+                        "d",
+                        dice_content["dead_unit"]
+                    );
+                } else {
+                    this._svg_drawing_dom.setAttribute(
+                        "d",
+                        dice_content["reset"]
+                    );
+                }
+            };
+        }
+    }
+
+    attackerDeath1 = new killedUnit("attackerDeath1");
+    attackerDeath2 = new killedUnit("attackerDeath2");
+    defenderDeath1 = new killedUnit("defenderDeath1");
+    defenderDeath2 = new killedUnit("defenderDeath2");
+
     dice_a1 = new baseDice("dice_a1");
     dice_a2 = new baseDice("dice_a2");
     dice_a3 = new baseDice("dice_a3");
     dice_d1 = new baseDice("dice_d1");
     dice_d2 = new baseDice("dice_d2");
+    // initialization ends here
+};
 
-    runningConquest = false;
-}; // initialization ends here
+// document.addEventListener("DOMContentLoaded", function () {
+// listen for attack and defend click events
+// document.getElementById("attack-one").onclick = attack(1);
+// document.getElementById("attack-one").addEventListener("click", attack(1));
+// console.log(document.getElementById("attack-one"));
+// console.log(document.getElementById("attack-two"));
+// document.getElementById("attack-two").addEventListener("click", attack(2));
+// document.getElementById("attack-two").onclick = attack(2);
+// document.getElementById("attack-three").onclick = attack(3);
+// });
+
+// document.getElementById("attack-one").addEventListener("click", attack(1));
 
 var dice_content = {
     reset: "",
@@ -58,60 +105,20 @@ var dice_content = {
     face_5:
         "M302.87 255.5a47.37 47.37 0 1 1-47.37-47.37 47.37 47.37 0 0 1 47.37 47.37zM128.5 81.18a47.37 47.37 0 1 0 47.41 47.32 47.37 47.37 0 0 0-47.41-47.32zm253.91 0a47.37 47.37 0 1 0 47.41 47.32 47.37 47.37 0 0 0-47.32-47.32zM128.5 335.09a47.37 47.37 0 1 0 47.41 47.41 47.37 47.37 0 0 0-47.41-47.41zm253.91 0a47.37 47.37 0 1 0 47.41 47.41 47.37 47.37 0 0 0-47.32-47.41zm102 92.93a56.48 56.48 0 0 1-56.39 56.48h-344a56.48 56.48 0 0 1-56.52-56.48v-344A56.48 56.48 0 0 1 83.98 27.5h344a56.48 56.48 0 0 1 56.52 56.48zm-20-344a36.48 36.48 0 0 0-36.39-36.52h-344A36.48 36.48 0 0 0 47.5 83.98v344a36.48 36.48 0 0 0 36.48 36.52h344a36.48 36.48 0 0 0 36.52-36.48z",
     face_6:
-        "M175.91 128.5a47.37 47.37 0 1 1-47.41-47.32 47.37 47.37 0 0 1 47.41 47.32zM382.5 81.18a47.37 47.37 0 1 0 47.32 47.32 47.37 47.37 0 0 0-47.32-47.32zm-254 126.95a47.37 47.37 0 1 0 47.41 47.37 47.37 47.37 0 0 0-47.41-47.37zm253.91 0a47.37 47.37 0 1 0 47.41 47.37 47.37 47.37 0 0 0-47.32-47.37zM128.5 335.09a47.37 47.37 0 1 0 47.41 47.41 47.37 47.37 0 0 0-47.41-47.41zm253.91 0a47.37 47.37 0 1 0 47.41 47.41 47.37 47.37 0 0 0-47.32-47.41zm102 92.93a56.48 56.48 0 0 1-56.39 56.48h-344a56.48 56.48 0 0 1-56.52-56.48v-344A56.48 56.48 0 0 1 83.98 27.5h344a56.48 56.48 0 0 1 56.52 56.48zm-20-344a36.48 36.48 0 0 0-36.39-36.52h-344A36.48 36.48 0 0 0 47.5 83.98v344a36.48 36.48 0 0 0 36.48 36.52h344a36.48 36.48 0 0 0 36.52-36.48z"
+        "M175.91 128.5a47.37 47.37 0 1 1-47.41-47.32 47.37 47.37 0 0 1 47.41 47.32zM382.5 81.18a47.37 47.37 0 1 0 47.32 47.32 47.37 47.37 0 0 0-47.32-47.32zm-254 126.95a47.37 47.37 0 1 0 47.41 47.37 47.37 47.37 0 0 0-47.41-47.37zm253.91 0a47.37 47.37 0 1 0 47.41 47.37 47.37 47.37 0 0 0-47.32-47.37zM128.5 335.09a47.37 47.37 0 1 0 47.41 47.41 47.37 47.37 0 0 0-47.41-47.41zm253.91 0a47.37 47.37 0 1 0 47.41 47.41 47.37 47.37 0 0 0-47.32-47.41zm102 92.93a56.48 56.48 0 0 1-56.39 56.48h-344a56.48 56.48 0 0 1-56.52-56.48v-344A56.48 56.48 0 0 1 83.98 27.5h344a56.48 56.48 0 0 1 56.52 56.48zm-20-344a36.48 36.48 0 0 0-36.39-36.52h-344A36.48 36.48 0 0 0 47.5 83.98v344a36.48 36.48 0 0 0 36.48 36.52h344a36.48 36.48 0 0 0 36.52-36.48z",
+    dead_unit:
+        "M242.5 21.5c-25.192 3.245-47.28 32.016-47.28 68.78 0 20.28 7.038 38.25 17.5 50.75l10.25 12.25-15.69 2.94c-6.058 1.128-11.42 3.163-16.25 6.093l50.907 29.343.22.125c10.092 5.547 17.387 12.847 21.687 20.72 4.332 7.932 5.865 16.78 2.562 24.75-3.302 7.97-12.133 13.29-21.687 13.344-9.457.054-20.02-3.703-32.345-11.5-.13-.082-.245-.136-.375-.22l-52.313-30.06c-1.536 4.65-2.918 9.51-4.156 14.56-8.238 33.626-9.925 74.615-10.155 110.407H189.5l.625 8.626 11.28 149.78 96.69.002L308.03 342.5l.564-8.72h42c-.013-36.18-.378-77.737-7.844-111.624-4.05-18.384-10.197-34.295-18.813-45.75-8.615-11.454-19.257-18.706-34.593-21.062l-16-2.438L283.5 140.25c10.008-12.437 16.72-30.183 16.72-49.97-.002-39.2-24.78-68.718-52.5-68.718-2.913 0-4.762-.12-5.22-.062zM20.812 85.78v21.626l200.875 115.5.188.094.188.125c10.573 6.74 18.416 8.805 22.53 8.78 4.115-.022 4.113-.724 4.563-1.81.45-1.09.63-4.324-1.72-8.626-2.348-4.304-7.01-9.363-14.436-13.407l-.094-.032-.094-.06-212-122.19zm396.97 187.626l-15.626 28.22-33.656-19.063c.355 8.144.576 16.234.688 24.187l22.906 13.03-15.47 27.94 114.97 15.124-73.813-89.438z"
 };
 
 function random6() {
     return Math.floor(Math.random() * 6) + 1;
 }
 
-var attackerRolled = false;
-var attackerRolledOne = false; //defender can't throw 2 if attacker throws 1 dice.
-
-function attackOne() {
-    //activate rolldice, reset unrolled dice, reset defence
+function attack(armies) {
     if (attackerRolled) {
         window.alert("Defending turn");
     } else {
-        dice_a1.rollDice();
-        dice_a2.resetDice();
-        dice_a3.resetDice();
         resetBoard();
-        if (runningConquest) {
-            //set next round number if active
-            nextRound();
-        }
-        attackerRolled = true;
-        attackerRolledOne = true;
-    }
-}
-function attackTwo() {
-    if (attackerRolled) {
-        window.alert("Defending turn");
-    } else {
-        if (runningConquest) {
-            //set next round number if active
-            if (attacker.units <= 2) {
-                window.alert("Not enough units");
-                return;
-            } else {
-                nextRound();
-                attackerRolled = true;
-                attackerRolledOne = false;
-            }
-        }
-        dice_a1.rollDice();
-        dice_a2.rollDice();
-        dice_a3.resetDice();
-        resetBoard();
-        attackerRolled = true;
-        attackerRolledOne = false;
-    }
-}
-function attackThree() {
-    if (attackerRolled) {
-        window.alert("Defending turn");
-    } else {
         if (runningConquest) {
             //set next round number if active
             if (attacker.units <= 3) {
@@ -119,23 +126,31 @@ function attackThree() {
                 return;
             } else {
                 nextRound();
-                attackerRolled = true;
-                attackerRolledOne = false;
             }
         }
-        dice_a1.rollDice();
-        dice_a2.rollDice();
-        dice_a3.rollDice();
-        resetBoard();
         attackerRolled = true;
         attackerRolledOne = false;
+        dice_a1.rollDice();
+        if (armies === 1) {
+            attackerRolledOne = true;
+            showDefendTwo(false);
+        }
+        if (armies > 1) {
+            dice_a2.rollDice();
+        }
+        if (armies === 3) {
+            dice_a3.rollDice();
+        }
     }
 }
 
-function defendOne() {
-    //roll defence and initiate calc result
+function defend(armies) {
+    //check if attacked and if attacked with >2
     if (attackerRolled) {
         dice_d1.rollDice();
+        if (armies === 2) {
+            dice_d2.rollDice();
+        }
         calculateResult();
         if (runningConquest) {
             //run Conquest logic if active
@@ -145,37 +160,29 @@ function defendOne() {
         window.alert("Attack first");
     }
 }
-function defendTwo() {
-    //check if attacked and if attacked with >2
-    if (attackerRolled) {
-        if (attackerRolledOne) {
-            window.alert("You can't throw 2");
-        } else {
-            if (runningConquest && defender.units <= 1) {
-                //must have 2 units to defend with 2 (duh)
-                window.alert("Not enough units");
-                return;
-            }
-            dice_d1.rollDice();
-            dice_d2.rollDice();
-            calculateResult();
-            if (runningConquest) {
-                //run Conquest logic if active
-                calculateUnits();
-            }
-        }
+
+// allows for showing and hiding of button to defend with 2 armies
+function showDefendTwo(boolean) {
+    dom = document.getElementById("defend-two");
+    if (boolean) {
+        dom.style.display = "inline-block";
     } else {
-        window.alert("Attack first");
+        dom.style.display = "none";
     }
 }
+
 function resetBoard() {
     dice_d1.resetDice();
     dice_d2.resetDice();
-    document.getElementById("attackerLost_1").style.display = "none";
-    document.getElementById("attackerLost_2").style.display = "none";
-    document.getElementById("defenderLost_1").style.display = "none";
-    document.getElementById("defenderLost_2").style.display = "none";
+    dice_a1.resetDice();
+    dice_a2.resetDice();
+    dice_a3.resetDice();
+    defenderDeath1.show_unit(false);
+    defenderDeath2.show_unit(false);
+    attackerDeath1.show_unit(false);
+    attackerDeath2.show_unit(false);
     attackerRolled = false;
+    showDefendTwo(true);
 }
 function resetAll() {
     dice_a1.resetDice();
@@ -196,15 +203,14 @@ function calculateResult() {
     defender.sort(highestFirst);
     attackerUnitsLost = 0; //these are not needed here, they are for
     defenderUnitsLost = 0; //the logic of keeping track of conquests
+
     if (defender[0] >= attacker[0]) {
         // determine first round
-        document.getElementById("attackerLost_1").style.display =
-            "inline-block";
+        attackerDeath1.show_unit(true);
         attWinsRound1 = false;
         attackerUnitsLost += 1;
     } else {
-        document.getElementById("defenderLost_1").style.display =
-            "inline-block";
+        defenderDeath1.show_unit(true);
         attWinsRound1 = true;
         defenderUnitsLost += 1;
     }
@@ -213,20 +219,16 @@ function calculateResult() {
         if (defender[1] >= attacker[1]) {
             attackerUnitsLost += 1;
             if (attWinsRound1) {
-                document.getElementById("attackerLost_1").style.display =
-                    "inline-block";
+                attackerDeath1.show_unit(true);
             } else {
-                document.getElementById("attackerLost_2").style.display =
-                    "inline-block";
+                attackerDeath2.show_unit(true);
             }
         } else {
             defenderUnitsLost += 1;
             if (attWinsRound1) {
-                document.getElementById("defenderLost_2").style.display =
-                    "inline-block";
+                defenderDeath2.show_unit(true);
             } else {
-                document.getElementById("defenderLost_1").style.display =
-                    "inline-block";
+                defenderDeath1.show_unit(true);
             }
         }
     }
@@ -290,6 +292,9 @@ function nextRound() {
 function calculateUnits() {
     attacker.units -= attackerUnitsLost;
     defender.units -= defenderUnitsLost;
+    if (defend.units === 1) {
+        showDefendTwo(false);
+    }
     if (attacker.units <= 1 || defender.units <= 0) {
         //attacker with 1 unit is done attacking
         winnersAndLosers();
@@ -311,7 +316,7 @@ function winnersAndLosers() {
     runningConquest = false;
     if (attacker.units <= 1) {
         defender.dom_path.innerHTML = "Winner! (" + defender.units + " units)";
-        if (attacker.units == 1) {
+        if (attacker.units === 1) {
             attacker.dom_path.innerHTML = "1 unit left, loser!";
         } else {
             attacker.dom_path.innerHTML = "Loser!";

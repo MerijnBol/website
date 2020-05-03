@@ -12,30 +12,39 @@
 <body>
     <div id="game-area">
         <div id="row_1" class="row-1">
-            <div id="" class="col-3">
-                <div class="play-button" onclick="attackThree()">
+            <div id="" class="col-10">
+                <div id="attack-three" class="play-button" onclick="attack(3)">
                     <object type="image/svg+xml" data="library/dice_svg/dice-0.svg"></object>
                     <object type="image/svg+xml" data="library/dice_svg/dice-0.svg"></object>
                     <object type="image/svg+xml" data="library/dice_svg/dice-0.svg"></object>
                 </div>
-            </div>
-            <div id="" class="col-4">
-                <div class="play-button" onclick="attackTwo()">
+                <div id="attack-two" class="play-button" onclick="attack(2)">
                     <object type="image/svg+xml" data="library/dice_svg/dice-0.svg"></object>
                     <object type="image/svg+xml" data="library/dice_svg/dice-0.svg"></object>
                 </div>
-            </div>
-            <div id="" class="col-3">
-                <div class="play-button" onclick="attackOne()">
+                <div id="attack-one" class="play-button" onclick="attack(1)">
                     <object type="image/svg+xml" data="library/dice_svg/dice-0.svg"></object>
                 </div>
             </div>
         </div>
         <div id="row_2" class="row-2 ">
-            <div id="" class="col-2">
-
+            <div id="" class="col-5">
+                <svg id="attackerDeath1" class="unit-lost" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512">
+                    <path d="M0 0h512v512H0z" fill="transparent" fill-opacity="1"></path>
+                    <g class="" style="touch-action: none;" transform="translate(0,0)">
+                        <path class=".dice-face-path" d="" fill="#fff" fill-opacity="1"></path>
+                    </g>
+                </svg>
+                <svg id="attackerDeath2" class="unit-lost" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512">
+                    <path d="M0 0h512v512H0z" fill="transparent" fill-opacity="1"></path>
+                    <g class="" style="touch-action: none;" transform="translate(0,0)">
+                        <path class=".dice-face-path" d="" fill="#fff" fill-opacity="1"></path>
+                    </g>
+                </svg>
             </div>
-            <div id="" class="col-6 centeralign">
+            <div id="" class="col-5">
                 <svg id="dice_a3" class="dice" xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 512 512">
                     <path d="M0 0h512v512H0z" fill="transparent" fill-opacity="1"></path>
@@ -58,9 +67,6 @@
                     </g>
                 </svg>
             </div>
-            <div id="" class="col-2">
-
-            </div>
         </div>
         <div id="row_3" class="row-3">
             <div id="" class="col-3 center_inner_div">
@@ -71,10 +77,7 @@
             </div>
             <div id="" class="col-3 center_inner_div">
                 <div id="" class="lost_units ">
-                    <img id="attackerLost_1" style="display:none;" class=""
-                        src="library/dice_images/rLost.png">
-                    <img id="attackerLost_2" style="display:none;" class=""
-                        src="library/dice_images/rLost.png">
+
                 </div>
             </div>
         </div>
@@ -87,7 +90,6 @@
             <div id="" class="col-4 center_inner_div">
                 <div id="reset_Conquest" style="display:none;" class="MenuButton"
                     onclick="resetConquest()">Reset Conquest</div>
-
             </div>
         </div>
         <div id="row_5" class="row-5">
@@ -98,17 +100,11 @@
                 <p id="defender_units_left" class="lost_units"></p>
             </div>
             <div id="" class="col-3 center_inner_div">
-                <div id="" class="lost_units ">
-                    <img id="defenderLost_1" style="display:none;" class=""
-                        src="library/dice_images/bLost.png">
-                    <img id="defenderLost_2" style="display:none;" class=""
-                        src="library/dice_images/bLost.png">
-                </div>
+
             </div>
         </div>
         <div id="row_6" class="row-6 ">
-            <div id="" class="col-3"></div>
-            <div id="" class="col-4 centeralign">
+            <div id="" class="col-5">
                 <svg id="dice_d1" class="dice" xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 512 512">
                     <path d="M0 0h512v512H0z" fill="transparent" fill-opacity="1"></path>
@@ -124,23 +120,33 @@
                     </g>
                 </svg>
             </div>
-            <div id="" class="col-3"></div>
+            <div id="" class="col-5">
+                <svg id="defenderDeath1" class="unit-lost" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512">
+                    <path d="M0 0h512v512H0z" fill="transparent" fill-opacity="1"></path>
+                    <g class="" style="touch-action: none;" transform="translate(0,0)">
+                        <path class=".dice-face-path" d="" fill="#fff" fill-opacity="1"></path>
+                    </g>
+                </svg>
+                <svg id="defenderDeath2" class="unit-lost" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512">
+                    <path d="M0 0h512v512H0z" fill="transparent" fill-opacity="1"></path>
+                    <g class="" style="touch-action: none;" transform="translate(0,0)">
+                        <path class=".dice-face-path" d="" fill="#fff" fill-opacity="1"></path>
+                    </g>
+                </svg>
+            </div>
         </div>
         <div id="row_7" class="row-7">
-            <div id="" class="col-1"></div>
-            <div id="" class="col-3">
-                <div class="play-button" onclick="defendOne()">
+            <div id="" class="col-10">
+                <div id="defend-one" class="play-button" onclick="defend(1)">
                     <object type="image/svg+xml" data="library/dice_svg/dice-0.svg"></object>
                 </div>
-            </div>
-            <div id="" class="col-2"></div>
-            <div id="" class="col-3">
-                <div class="play-button" onclick="defendTwo()">
+                <div id="defend-two" class="play-button" onclick="defend(2)">
                     <object type="image/svg+xml" data="library/dice_svg/dice-0.svg"></object>
                     <object type="image/svg+xml" data="library/dice_svg/dice-0.svg"></object>
                 </div>
             </div>
-            <div id="" class="col-1"></div>
         </div>
     </div>
 </body>
