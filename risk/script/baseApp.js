@@ -111,14 +111,12 @@ window.onload = function () {
             const attInput = document.getElementById("attacker_input");
             const defInput = document.getElementById("defender_input");
             if (toggle.checked === false) {
-                console.log("toTrue");
                 toggle.checked = true;
                 startstop.style.display = "inline-block";
                 counter.style.display = "inline-block";
                 attInput.style.display = "inline-block";
                 defInput.style.display = "inline-block";
             } else {
-                console.log("toFalse");
                 toggle.checked = false;
                 startstop.style.display = "none";
                 counter.style.display = "none";
