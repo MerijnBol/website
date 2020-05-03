@@ -108,8 +108,7 @@ body {
     min-height: 400px;
 }
 @media only screen and (min-width: 670px) {
-    /* when screen large > fix width */
-    /* for large screens */
+    /* fix width and center horizontally for larger screens */
     #game-area {
         width: 670px;
         margin-left: auto;
@@ -119,7 +118,7 @@ body {
 @media only screen and (min-height: 920px) {
     /* max height */
     #game-area {
-        height: 920px;
+        height: 920px;s
     }
 }
 /* make the vertical aligns work */
@@ -142,7 +141,7 @@ body {
     border: 1mm solid var(--attack-red);
     background-color: var(--shade-3);
 }
-.play-button object {
+.button-dice {
     display: inline-block;
     vertical-align: middle;
     width: 25%;
@@ -196,4 +195,10 @@ input {
 /* html markup classes */
 .centeralign {
     text-align: center;
+}
+
+
+/* utilities */
+svg {
+    pointer-events: none;
 }
