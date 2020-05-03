@@ -9,9 +9,9 @@
     --background-soft: rgb(20, 20, 20);
     /* theme color black, multiple shades */
     --shade-0: black;
-    --shade-1: rgb(10, 10, 10);
-    --shade-2: rgb(20, 20, 20);
-    --shade-3: rgb(40, 40, 40);
+    --shade-1: rgb(20, 20, 20);
+    --shade-2: rgb(40, 40, 40);
+    --shade-3: rgb(60, 60, 60);
     --shade-4: rgb(80, 80, 80);
     --attack-red: red;
     --defend-blue: blue;
@@ -118,7 +118,7 @@ body {
 @media only screen and (min-height: 920px) {
     /* max height */
     #game-area {
-        height: 920px;s
+        height: 920px;
     }
 }
 /* make the vertical aligns work */
@@ -130,23 +130,40 @@ body {
     display: inline-block;
     vertical-align: middle;
 }
-/* dimensioning of icons */
+
 .play-button {
     display: inline-block;
+    position: relative;
     vertical-align: middle;
-    height: auto;
-    width: 25%;
+    color: var(--attack-red);
+    background-color: var(--shade-2);
+    border: 1px solid var(--attack-red);
+    border-radius: 4px;
+    padding: 0;
     margin: 0 3%;
-    border-radius: 2mm;
-    border: 1mm solid var(--attack-red);
-    background-color: var(--shade-3);
+    cursor: pointer;
+    height: 80%;
+    width: 25%;
+    font-size: 14px;
 }
+.play-button:active {
+    box-shadow: 0 3px 0 var(--attack-red);
+    top: 3px;
+}
+#row_7 .play-button {
+    color: var(--defend-blue);
+    border-color: var(--defend-blue);
+}
+#row_7 .play-button:active {
+    box-shadow: 0 3px 0 var(--defend-blue);
+}
+
 .button-dice {
     display: inline-block;
     vertical-align: middle;
     width: 25%;
     height: auto;
-    margin: 10% 1%;
+    margin: 0 1%;
 }
 .unit-lost,
 .dice {
@@ -173,6 +190,7 @@ p.lost_units {
     height: 60%;
     width: auto;
 }
+
 /*----------------------------------------Styling --------------------*/
 .MenuButton {
     background-color: var(--shade-4);
@@ -185,7 +203,7 @@ p.lost_units {
 }
 input {
     display: inline-block;
-    width: 50%;
+    width: 60%;
     text-align: left;
 }
 .align-right {
@@ -197,8 +215,80 @@ input {
     text-align: center;
 }
 
-
 /* utilities */
 svg {
     pointer-events: none;
+}
+
+/* toggle switch */
+.onoffswitch {
+    position: relative;
+    vertical-align: middle;
+    display: inline-block;
+    width: 87px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid var(--shade-4);
+    border-radius: 12px;
+}
+.onoffswitch-inner {
+    display: block;
+    width: 200%;
+    margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before,
+.onoffswitch-inner:after {
+    display: block;
+    float: left;
+    width: 50%;
+    height: 30px;
+    padding: 0;
+    line-height: 30px;
+    font-size: 14px;
+    color: white;
+    font-family: Trebuchet, Arial, sans-serif;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "ON";
+    padding-left: 10px;
+    background-color: var(--attack-red);
+    color: var(--white);
+}
+.onoffswitch-inner:after {
+    content: "OFF";
+    padding-right: 10px;
+    background-color: var(--shade-1);
+    color: var(--shade-4);
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block;
+    width: 18px;
+    margin: 6px;
+    background: #ffffff;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 56px;
+    border: 2px solid #999999;
+    border-radius: 20px;
+    transition: all 0.3s ease-in 0s;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px;
 }

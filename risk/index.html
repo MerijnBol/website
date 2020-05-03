@@ -5,7 +5,7 @@
     <title>RISK Dice</title>
     <link rel="stylesheet" type="text/css" href="CSS/mainstylesheet.css">
     <script type="text/javascript" src="script/baseApp.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
 </head>
 
@@ -118,7 +118,7 @@
         </div>
         <div id="row_3" class="row-3">
             <div id="" class="col-3 center_inner_div">
-                <input id="attacker_input" type="number" placeholder=" units">
+                <input id="attacker_input" type="number" placeholder=" units" style="display:none;">
             </div>
             <div class="col-4 center_inner_div">
                 <p id="attacker_units_left" class="lost_units"></p>
@@ -130,19 +130,28 @@
             </div>
         </div>
         <div id="row_4" class="row-4">
-            <div id="" class="col-4 center_inner_div">
-                <div id="reset_button" class="MenuButton" onclick="engageConquest()">Start Conquest
+            <div id="" class="col-3">
+                <div id="conquestToggle" class="onoffswitch">
+                    <input id="conquestToggleInput" type="checkbox" name="onoffswitch"
+                        class="onoffswitch-checkbox" id="myonoffswitch" checked>
+                    <label class="onoffswitch-label" for="myonoffswitch">
+                        <span class="onoffswitch-inner"></span>
+                        <span class="onoffswitch-switch"></span>
+                    </label>
                 </div>
             </div>
-            <div id="" class="col-2 center_inner_div"></div>
-            <div id="" class="col-4 center_inner_div">
-                <div id="reset_Conquest" style="display:none;" class="MenuButton"
-                    onclick="resetConquest()">Reset Conquest</div>
+            <div id="" class="col-7 center_inner_div">
+                <div id="startStopConquest" class="MenuButton" style="display:none;">
+                    Start Conquest
+                </div>
+                <div id="roundCounter" class="MenuButton" style="display:none;">
+
+                </div>
             </div>
         </div>
         <div id="row_5" class="row-5">
             <div id="" class="col-3 center_inner_div">
-                <input id="defender_input" type="number" placeholder=" units">
+                <input id="defender_input" type="number" placeholder=" units" style="display:none;">
             </div>
             <div class="col-4 center_inner_div">
                 <p id="defender_units_left" class="lost_units"></p>

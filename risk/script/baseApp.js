@@ -79,7 +79,6 @@ window.onload = function () {
     document
         .getElementById("attack-one")
         .addEventListener("click", function () {
-            console.log("pressed 1");
             attack(1);
         });
     document
@@ -92,9 +91,6 @@ window.onload = function () {
         .addEventListener("click", function () {
             attack(3);
         });
-    console.log(
-        document.getElementById("attack-three").getElementsByTagName("svg")
-    );
 
     document
         .getElementById("defend-one")
@@ -105,6 +101,39 @@ window.onload = function () {
         .getElementById("defend-two")
         .addEventListener("click", function () {
             defend(2);
+        });
+    document
+        .getElementById("conquestToggle")
+        .addEventListener("click", (event) => {
+            const toggle = document.getElementById("conquestToggleInput");
+            const startstop = document.getElementById("startStopConquest");
+            const counter = document.getElementById("roundCounter");
+            const attInput = document.getElementById("attacker_input");
+            const defInput = document.getElementById("defender_input");
+            if (toggle.checked === false) {
+                console.log("toTrue");
+                toggle.checked = true;
+                startstop.style.display = "inline-block";
+                counter.style.display = "inline-block";
+                attInput.style.display = "inline-block";
+                defInput.style.display = "inline-block";
+            } else {
+                console.log("toFalse");
+                toggle.checked = false;
+                startstop.style.display = "none";
+                counter.style.display = "none";
+                attInput.style.display = "none";
+                defInput.style.display = "none";
+            }
+        });
+    document
+        .getElementById("startStopConquest")
+        .addEventListener("click", (event) => {
+            if (runningConquest) {
+                resetConquest();
+            } else {
+                engageConquest();
+            }
         });
     // initialization ends here
 };
@@ -203,12 +232,6 @@ function resetBoard() {
     attackerRolled = false;
     showDefendTwo(true);
 }
-function resetAll() {
-    dice_a1.resetDice();
-    dice_a2.resetDice();
-    dice_a3.resetDice();
-    resetBoard();
-}
 function highestFirst(a, b) {
     //sorting function
     return b - a;
@@ -267,9 +290,12 @@ function engageConquest() {
     }
 }
 
+// toggle to show and hide Conquest UI.
+function toggleConquest() {}
+
 function setupConquest() {
     //setup the conquest
-    resetAll();
+    resetBoard();
     class Army {
         constructor(name, units) {
             this._name = name;
@@ -297,16 +323,14 @@ function setupConquest() {
     document.getElementById("attacker_input").value = ""; //reset input field
     document.getElementById("defender_input").value = "";
     turnCounter = 0;
-    document.getElementById("reset_button").innerHTML = "Attack!"; //get on with it already
     runningConquest = true;
     attacker.dom_path.innerHTML = attacker.units + " units left"; //show the starting amount of units
     defender.dom_path.innerHTML = defender.units + " units left";
-    document.getElementById("reset_Conquest").style.display = "inline-block";
 }
 
 function nextRound() {
     turnCounter += 1;
-    document.getElementById("reset_button").innerHTML = "Round " + turnCounter;
+    document.getElementById("roundCounter").innerHTML = "Round " + turnCounter;
 }
 function calculateUnits() {
     attacker.units -= attackerUnitsLost;
@@ -324,12 +348,10 @@ function calculateUnits() {
 }
 
 function resetConquest() {
-    resetAll();
-    document.getElementById("reset_button").innerHTML = "Start Conquest";
+    resetBoard();
     runningConquest = false;
     attacker.dom_path.innerHTML = "";
     defender.dom_path.innerHTML = "";
-    document.getElementById("reset_Conquest").style.display = "none";
 }
 function winnersAndLosers() {
     runningConquest = false;
@@ -344,5 +366,4 @@ function winnersAndLosers() {
         attacker.dom_path.innerHTML = "Winner! (" + attacker.units + " units)";
         defender.dom_path.innerHTML = "Loser!";
     }
-    document.getElementById("reset_button").innerHTML = "Start Conquest";
 }
