@@ -318,8 +318,8 @@ function engageConquest() {
 function stopConquest() {
     runningConquest = false;
     conquest.startstop.innerHTML = "Start";
-    conquest.attackingUnits.value = "";
-    conquest.defendingUnits.value = "";
+    // conquest.attackingUnits.value = "";
+    // conquest.defendingUnits.value = "";
 }
 
 function setupConquest() {
@@ -347,6 +347,6 @@ function calculateUnits() {
     }
     if (attackingArmy.units <= 1 || defendingArmy.units <= 0) {
         //attacker with 1 unit is done attacking
-        runningConquest = false;
+        stopConquest();
     }
 }
