@@ -1,5 +1,7 @@
 // declerations
 var dice_a1, dice_a2, dice_a3, dice_d1, dice_d2, i;
+var attackerDeath1, attackerDeath2, defenderDeath1, defenderDeath2;
+var conquest, defendingArmy, attackingArmy;
 
 // declare and initialize
 var runningConquest = false;
@@ -7,18 +9,26 @@ var attackerRolled = false;
 var attackerRolledOne = false; //defender can't throw 2 if attacker throws 1 dice.
 
 window.onload = function () {
-    //Setup the dice objectclasses:
-    class baseDice {
+    // Setup objects for all DOM elements
+    class dom_element {
         constructor(name) {
             this._name = name;
-            this._svg_dom = document.getElementById(this._name);
-            this._svg_drawing_dom = this._svg_dom.getElementsByClassName(
+            this._dom_path = document.getElementById(this._name);
+        }
+        get name() {
+            return this._name;
+        }
+    }
+    // Dice constructor
+    class dice extends dom_element {
+        constructor(name) {
+            super(name);
+            this._svg_drawing_dom = this._dom_path.getElementsByClassName(
                 ".dice-face-path"
             )[0];
             this.update_svg_drawing = function (value) {
                 this._svg_drawing_dom.setAttribute("d", value);
             };
-            this._set_;
             this._value = 0;
             this.rollDice = function () {
                 //prototype method
@@ -30,9 +40,6 @@ window.onload = function () {
                 this.update_svg_drawing(svg_content["reset"]);
             };
         }
-        get name() {
-            return this._name;
-        }
         get value() {
             return this._value;
         }
@@ -41,11 +48,10 @@ window.onload = function () {
         }
     }
 
-    class killedUnit {
+    class casualties extends dom_element {
         constructor(name) {
-            this._name = name;
-            this._svg_dom = document.getElementById(this._name);
-            this._svg_drawing_dom = this._svg_dom.getElementsByClassName(
+            super(name);
+            this._svg_drawing_dom = this._dom_path.getElementsByClassName(
                 ".dice-face-path"
             )[0];
             this.show_unit = function (boolean) {
@@ -64,16 +70,38 @@ window.onload = function () {
         }
     }
 
-    attackerDeath1 = new killedUnit("attackerDeath1");
-    attackerDeath2 = new killedUnit("attackerDeath2");
-    defenderDeath1 = new killedUnit("defenderDeath1");
-    defenderDeath2 = new killedUnit("defenderDeath2");
+    class army {
+        constructor(units) {
+            this._units = units;
+        }
+        get units() {
+            return this._units;
+        }
+        set units(input) {
+            this._units = input;
+        }
+    }
 
-    dice_a1 = new baseDice("dice_a1");
-    dice_a2 = new baseDice("dice_a2");
-    dice_a3 = new baseDice("dice_a3");
-    dice_d1 = new baseDice("dice_d1");
-    dice_d2 = new baseDice("dice_d2");
+    conquest = new Object();
+    conquest.toggle = document.getElementById("conquestToggleInput");
+    conquest.startstop = document.getElementById("startStopConquest");
+    conquest.counter = document.getElementById("roundCounter");
+    conquest.attackingUnits = document.getElementById("attacker_input");
+    conquest.defendingUnits = document.getElementById("defender_input");
+
+    attackerDeath1 = new casualties("attackerDeath1");
+    attackerDeath2 = new casualties("attackerDeath2");
+    defenderDeath1 = new casualties("defenderDeath1");
+    defenderDeath2 = new casualties("defenderDeath2");
+
+    dice_a1 = new dice("dice_a1");
+    dice_a2 = new dice("dice_a2");
+    dice_a3 = new dice("dice_a3");
+    dice_d1 = new dice("dice_d1");
+    dice_d2 = new dice("dice_d2");
+
+    attackingArmy = new army(0);
+    defendingArmy = new army(0);
 
     // The event listeners for all button presses
     document
@@ -105,34 +133,28 @@ window.onload = function () {
     document
         .getElementById("conquestToggle")
         .addEventListener("click", (event) => {
-            const toggle = document.getElementById("conquestToggleInput");
-            const startstop = document.getElementById("startStopConquest");
-            const counter = document.getElementById("roundCounter");
-            const attInput = document.getElementById("attacker_input");
-            const defInput = document.getElementById("defender_input");
-            if (toggle.checked === false) {
-                toggle.checked = true;
-                startstop.style.display = "inline-block";
-                counter.style.display = "inline-block";
-                attInput.style.display = "inline-block";
-                defInput.style.display = "inline-block";
+            if (conquest.toggle.checked === false) {
+                conquest.toggle.checked = true;
+                conquest.startstop.style.display = "inline-block";
+                conquest.counter.style.display = "inline-block";
+                conquest.attackingUnits.style.display = "inline-block";
+                conquest.defendingUnits.style.display = "inline-block";
             } else {
-                toggle.checked = false;
-                startstop.style.display = "none";
-                counter.style.display = "none";
-                attInput.style.display = "none";
-                defInput.style.display = "none";
+                conquest.toggle.checked = false;
+                conquest.startstop.style.display = "none";
+                conquest.counter.style.display = "none";
+                conquest.attackingUnits.style.display = "none";
+                conquest.defendingUnits.style.display = "none";
             }
         });
-    document
-        .getElementById("startStopConquest")
-        .addEventListener("click", (event) => {
-            if (runningConquest) {
-                resetConquest();
-            } else {
-                engageConquest();
-            }
-        });
+    conquest.startstop.addEventListener("click", (event) => {
+        if (runningConquest) {
+            resetBoard();
+            stopConquest();
+        } else {
+            engageConquest();
+        }
+    });
     // initialization ends here
 };
 
@@ -167,7 +189,7 @@ function attack(armies) {
         resetBoard();
         if (runningConquest) {
             //set next round number if active
-            if (attacker.units <= 3) {
+            if (attackingArmy.units <= armies) {
                 window.alert("Not enough units");
                 return;
             } else {
@@ -207,15 +229,19 @@ function defend(armies) {
     }
 }
 
-// allows for showing and hiding of button to defend with 2 armies
 function showDefendTwo(boolean) {
     dom = document.getElementById("defend-two");
-    if (boolean) {
+    // prevents turning on if conquest defender only has 1 unit
+    if (boolean && defendingArmy.units != 1) {
         dom.style.display = "inline-block";
-    } else {
+    } else if (!boolean) {
         dom.style.display = "none";
     }
 }
+
+// false if attacker throws 1
+// true on attack
+// false if defender has 1 unit
 
 function resetBoard() {
     dice_d1.resetDice();
@@ -237,14 +263,14 @@ function highestFirst(a, b) {
 function calculateResult() {
     //logic for deciding losses
     var attWinsRound1 = true;
-    const attacker = new Array(dice_a1.value, dice_a2.value, dice_a3.value);
-    const defender = new Array(dice_d1.value, dice_d2.value);
-    attacker.sort(highestFirst);
-    defender.sort(highestFirst);
+    const attackerDice = new Array(dice_a1.value, dice_a2.value, dice_a3.value);
+    const defenderDice = new Array(dice_d1.value, dice_d2.value);
+    attackerDice.sort(highestFirst);
+    defenderDice.sort(highestFirst);
     attackerUnitsLost = 0; //these are not needed here, they are for
     defenderUnitsLost = 0; //the logic of keeping track of conquests
 
-    if (defender[0] >= attacker[0]) {
+    if (defenderDice[0] >= attackerDice[0]) {
         // determine first round
         attackerDeath1.show_unit(true);
         attWinsRound1 = false;
@@ -254,9 +280,9 @@ function calculateResult() {
         attWinsRound1 = true;
         defenderUnitsLost += 1;
     }
-    if (defender[1] > 0) {
+    if (defenderDice[1] > 0) {
         //only carry on if defence throws two dice
-        if (defender[1] >= attacker[1]) {
+        if (defenderDice[1] >= attackerDice[1]) {
             attackerUnitsLost += 1;
             if (attWinsRound1) {
                 attackerDeath1.show_unit(true);
@@ -277,9 +303,10 @@ function calculateResult() {
 // this part is for the logic of running Conquests
 function engageConquest() {
     if (!runningConquest) {
+        conquest.startstop.innerHTML = "Reset";
         if (
-            document.getElementById("attacker_input").value <= 1 ||
-            document.getElementById("defender_input").value <= 0
+            conquest.attackingUnits.value <= 1 ||
+            conquest.defendingUnits.value <= 0
         ) {
             window.alert("Input valid army sizes");
         } else {
@@ -288,42 +315,22 @@ function engageConquest() {
     }
 }
 
-// toggle to show and hide Conquest UI.
-function toggleConquest() {}
+function stopConquest() {
+    runningConquest = false;
+    conquest.startstop.innerHTML = "Start";
+    conquest.attackingUnits.value = "";
+    conquest.defendingUnits.value = "";
+}
 
 function setupConquest() {
     //setup the conquest
     resetBoard();
-    class Army {
-        constructor(name, units) {
-            this._name = name;
-            this._dom_path = document.getElementById(name);
-            this._units = units;
-        }
-        get name() {
-            return this._name;
-        }
-        get dom_path() {
-            return this._dom_path;
-        }
-        get units() {
-            return this._units;
-        }
-        set units(input) {
-            this._units = input;
-        }
-    }
 
-    const attacking_units = document.getElementById("attacker_input").value;
-    const defending_units = document.getElementById("defender_input").value;
-    attacker = new Army("attacker_units_left", attacking_units); //link the input field to the constructor
-    defender = new Army("defender_units_left", defending_units);
-    document.getElementById("attacker_input").value = ""; //reset input field
-    document.getElementById("defender_input").value = "";
+    attackingArmy.units = conquest.attackingUnits.value;
+    defendingArmy.units = conquest.defendingUnits.value;
+
     turnCounter = 0;
     runningConquest = true;
-    attacker.dom_path.innerHTML = attacker.units + " units left"; //show the starting amount of units
-    defender.dom_path.innerHTML = defender.units + " units left";
 }
 
 function nextRound() {
@@ -331,37 +338,15 @@ function nextRound() {
     document.getElementById("roundCounter").innerHTML = "Round " + turnCounter;
 }
 function calculateUnits() {
-    attacker.units -= attackerUnitsLost;
-    defender.units -= defenderUnitsLost;
-    if (defend.units === 1) {
+    attackingArmy.units -= attackerUnitsLost;
+    defendingArmy.units -= defenderUnitsLost;
+    conquest.attackingUnits.value = attackingArmy.units;
+    conquest.defendingUnits.value = defendingArmy.units;
+    if (defendingArmy.units === 1) {
         showDefendTwo(false);
     }
-    if (attacker.units <= 1 || defender.units <= 0) {
+    if (attackingArmy.units <= 1 || defendingArmy.units <= 0) {
         //attacker with 1 unit is done attacking
-        winnersAndLosers();
-    } else {
-        attacker.dom_path.innerHTML = attacker.units + " units left";
-        defender.dom_path.innerHTML = defender.units + " units left";
-    }
-}
-
-function resetConquest() {
-    resetBoard();
-    runningConquest = false;
-    attacker.dom_path.innerHTML = "";
-    defender.dom_path.innerHTML = "";
-}
-function winnersAndLosers() {
-    runningConquest = false;
-    if (attacker.units <= 1) {
-        defender.dom_path.innerHTML = "Winner! (" + defender.units + " units)";
-        if (attacker.units === 1) {
-            attacker.dom_path.innerHTML = "1 unit left, loser!";
-        } else {
-            attacker.dom_path.innerHTML = "Loser!";
-        }
-    } else if (defender.units <= 0) {
-        attacker.dom_path.innerHTML = "Winner! (" + attacker.units + " units)";
-        defender.dom_path.innerHTML = "Loser!";
+        runningConquest = false;
     }
 }
