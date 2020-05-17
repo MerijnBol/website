@@ -183,23 +183,8 @@ h4 {
     max-width: 25%;
     margin: 0 1%;
 }
-
-.lost_units {
-    display: inline;
-}
-.lost_units p,
-.lost_units img {
-    display: inline-block;
-    vertical-align: middle;
-}
-p.lost_units {
-    font-size: 14pt;
-    font-weight: bold;
-    vertical-align: middle;
-}
-.lost_units img {
-    height: 60%;
-    width: auto;
+#row_2 .unit-lost {
+    transform: rotate(180deg);
 }
 
 .feedback-box {
