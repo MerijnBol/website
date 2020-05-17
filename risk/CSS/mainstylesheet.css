@@ -179,6 +179,8 @@ h4 {
     display: inline-block;
     vertical-align: middle;
     height: 80%;
+    width: auto;
+    max-width: 25%;
     margin: 0 1%;
 }
 
@@ -204,7 +206,7 @@ p.lost_units {
     position: relative;
     display: inline-block;
     vertical-align: middle;
-    width: 80%;
+    width: 84%;
     height: 40%;
     color: var(--attack-red);
     background-color: var(--shade-4);

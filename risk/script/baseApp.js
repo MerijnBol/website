@@ -186,21 +186,29 @@ var svg_content = {
 
 var messages = {
     unitCount: "Not enough units",
-    invalidArmyCount: "Not a valid army input"
+    invalidArmyCount: "Not a valid army input",
+    attackerTurn: "Attackers turn",
+    DefenderTurn: "Defenders turn"
 };
 
-function alertAttacker(message) {
+function alertAttacker(message, persist = false) {
     if (message in messages) {
         controlScreen.attackerFeedback.innerHTML = messages[message];
     } else {
         controlScreen.attackerFeedback.innerHTML = message;
     }
+    if (!persist) {
+        setTimeout(() => (controlScreen.attackerFeedback.innerHTML = ""), 5000);
+    }
 }
-function alertDefender(message) {
+function alertDefender(message, persist = false) {
     if (message in messages) {
         controlScreen.defenderFeedback.innerHTML = messages[message];
     } else {
         controlScreen.defenderFeedback.innerHTML = message;
+    }
+    if (!persist) {
+        setTimeout(() => (controlScreen.defenderFeedback.innerHTML = ""), 5000);
     }
 }
 
@@ -212,7 +220,7 @@ function random6() {
 // handler of attackers actions
 function attack(armies) {
     if (attackerRolled) {
-        alertAttacker("Defending turn");
+        alertAttacker("DefenderTurn");
     } else {
         resetBoard();
         if (runningConquest) {
@@ -254,7 +262,7 @@ function defend(armies) {
             calculateUnits();
         }
     } else {
-        window.alert("Attack first");
+        alertDefender("attackerTurn");
     }
 }
 
@@ -353,7 +361,6 @@ function engageConquest() {
 // Set up army counts and logging variables.
 function setupConquest() {
     //setup the conquest
-    resetBoard();
     controlScreen.startstop.innerHTML = "Reset";
 
     attackingArmy.units = controlScreen.attackingUnits.value;
@@ -365,6 +372,7 @@ function setupConquest() {
 
 // remove all conquest info from screen.
 function resetConquest() {
+    resetBoard();
     runningConquest = false;
     controlScreen.startstop.innerHTML = "Start";
     controlScreen.counter.innerHTML = "Round";
@@ -384,13 +392,18 @@ function nextRound() {
 function calculateUnits() {
     attackingArmy.units -= attackerUnitsLost;
     defendingArmy.units -= defenderUnitsLost;
+    if (attackingArmy.units <= 1 || defendingArmy.units <= 0) {
+        // conquest is over. Handle results and reset board.
+        // the 'true' makes the messages persist, and not auto delete.
+        resetBoard();
+        alertAttacker(attackingArmy.units + " units left", true);
+        alertDefender(defendingArmy.units + " units left", true);
+        resetConquest();
+        return;
+    }
     controlScreen.attackingUnits.value = attackingArmy.units;
     controlScreen.defendingUnits.value = defendingArmy.units;
     if (defendingArmy.units === 1) {
         showDefendTwo(false);
-    }
-    if (attackingArmy.units <= 1 || defendingArmy.units <= 0) {
-        //conquest is over. Handle results and reset board.
-        resetConquest();
     }
 }
