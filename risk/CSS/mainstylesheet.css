@@ -72,19 +72,19 @@ body {
     height: 18%;
 }
 .row-2 {
-    height: 18%;
+    height: 14%;
 }
 .row-3 {
-    height: 10%;
+    height: 14%;
 }
 .row-4 {
     height: 08%;
 }
 .row-5 {
-    height: 10%;
+    height: 14%;
 }
 .row-6 {
-    height: 18%;
+    height: 14%;
 }
 .row-7 {
     height: 18%;
@@ -124,6 +124,7 @@ body {
 }
 /* make the vertical aligns work */
 .play-button::before,
+.feedback-box::before,
 [class*="col-"]::before {
     /*the inner element needs to be inline(block)*/
     content: "";
@@ -132,6 +133,12 @@ body {
     vertical-align: middle;
 }
 
+/* all textboxes */
+h4 {
+    margin: 0px;
+}
+
+/* styling with attacker color scheme */
 .play-button {
     display: inline-block;
     position: relative;
@@ -151,11 +158,12 @@ body {
     box-shadow: 0 3px 0 var(--attack-red);
     top: 3px;
 }
-#row_7 .play-button {
+/* changes for defender color scheme */
+#row_1 .play-button {
     color: var(--defend-blue);
     border-color: var(--defend-blue);
 }
-#row_7 .play-button:active {
+#row_1 .play-button:active {
     box-shadow: 0 3px 0 var(--defend-blue);
 }
 
@@ -170,7 +178,7 @@ body {
 .dice {
     display: inline-block;
     vertical-align: middle;
-    width: 25%;
+    height: 80%;
     margin: 0 1%;
 }
 
@@ -190,6 +198,26 @@ p.lost_units {
 .lost_units img {
     height: 60%;
     width: auto;
+}
+
+.feedback-box {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    width: 80%;
+    height: 40%;
+    color: var(--attack-red);
+    background-color: var(--shade-4);
+    border: 1px solid var(--shade-0);
+    border-radius: 5px;
+}
+#row_3 .feedback-box {
+    color: var(--defend-blue);
+    transform: rotate(180deg);
+}
+.feedback-box h4 {
+    display: inline-block;
+    vertical-align: middle;
 }
 
 /*----------------------------------------Styling --------------------*/

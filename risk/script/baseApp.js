@@ -82,12 +82,18 @@ window.onload = function () {
         }
     }
 
-    conquest = new Object();
-    conquest.toggle = document.getElementById("conquestToggleInput");
-    conquest.startstop = document.getElementById("startStopConquest");
-    conquest.counter = document.getElementById("roundCounter");
-    conquest.attackingUnits = document.getElementById("attacker_input");
-    conquest.defendingUnits = document.getElementById("defender_input");
+    controlScreen = new Object();
+    controlScreen.toggle = document.getElementById("conquestToggleInput");
+    controlScreen.startstop = document.getElementById("startStopConquest");
+    controlScreen.counter = document.getElementById("roundCounter");
+    controlScreen.attackingUnits = document.getElementById("attacker_input");
+    controlScreen.defendingUnits = document.getElementById("defender_input");
+    controlScreen.attackerFeedback = document
+        .getElementById("attacker-feedback")
+        .getElementsByTagName("h4")[0];
+    controlScreen.defenderFeedback = document
+        .getElementById("defender-feedback")
+        .getElementsByTagName("h4")[0];
 
     attackerDeath1 = new casualties("attackerDeath1");
     attackerDeath2 = new casualties("attackerDeath2");
@@ -133,24 +139,24 @@ window.onload = function () {
     document
         .getElementById("conquestToggle")
         .addEventListener("click", (event) => {
-            if (conquest.toggle.checked === false) {
-                conquest.toggle.checked = true;
-                conquest.startstop.style.display = "inline-block";
-                conquest.counter.style.display = "inline-block";
-                conquest.attackingUnits.style.display = "inline-block";
-                conquest.defendingUnits.style.display = "inline-block";
+            if (controlScreen.toggle.checked === false) {
+                controlScreen.toggle.checked = true;
+                controlScreen.startstop.style.display = "inline-block";
+                controlScreen.counter.style.display = "inline-block";
+                controlScreen.attackingUnits.style.display = "inline-block";
+                controlScreen.defendingUnits.style.display = "inline-block";
             } else {
-                conquest.toggle.checked = false;
-                conquest.startstop.style.display = "none";
-                conquest.counter.style.display = "none";
-                conquest.attackingUnits.style.display = "none";
-                conquest.defendingUnits.style.display = "none";
+                controlScreen.toggle.checked = false;
+                controlScreen.startstop.style.display = "none";
+                controlScreen.counter.style.display = "none";
+                controlScreen.attackingUnits.style.display = "none";
+                controlScreen.defendingUnits.style.display = "none";
             }
         });
-    conquest.startstop.addEventListener("click", (event) => {
+    controlScreen.startstop.addEventListener("click", (event) => {
         if (runningConquest) {
             resetBoard();
-            stopConquest();
+            resetConquest();
         } else {
             engageConquest();
         }
@@ -178,19 +184,41 @@ var svg_content = {
         "M242.5 21.5c-25.192 3.245-47.28 32.016-47.28 68.78 0 20.28 7.038 38.25 17.5 50.75l10.25 12.25-15.69 2.94c-6.058 1.128-11.42 3.163-16.25 6.093l50.907 29.343.22.125c10.092 5.547 17.387 12.847 21.687 20.72 4.332 7.932 5.865 16.78 2.562 24.75-3.302 7.97-12.133 13.29-21.687 13.344-9.457.054-20.02-3.703-32.345-11.5-.13-.082-.245-.136-.375-.22l-52.313-30.06c-1.536 4.65-2.918 9.51-4.156 14.56-8.238 33.626-9.925 74.615-10.155 110.407H189.5l.625 8.626 11.28 149.78 96.69.002L308.03 342.5l.564-8.72h42c-.013-36.18-.378-77.737-7.844-111.624-4.05-18.384-10.197-34.295-18.813-45.75-8.615-11.454-19.257-18.706-34.593-21.062l-16-2.438L283.5 140.25c10.008-12.437 16.72-30.183 16.72-49.97-.002-39.2-24.78-68.718-52.5-68.718-2.913 0-4.762-.12-5.22-.062zM20.812 85.78v21.626l200.875 115.5.188.094.188.125c10.573 6.74 18.416 8.805 22.53 8.78 4.115-.022 4.113-.724 4.563-1.81.45-1.09.63-4.324-1.72-8.626-2.348-4.304-7.01-9.363-14.436-13.407l-.094-.032-.094-.06-212-122.19zm396.97 187.626l-15.626 28.22-33.656-19.063c.355 8.144.576 16.234.688 24.187l22.906 13.03-15.47 27.94 114.97 15.124-73.813-89.438z"
 };
 
+var messages = {
+    unitCount: "Not enough units",
+    invalidArmyCount: "Not a valid army input"
+};
+
+function alertAttacker(message) {
+    if (message in messages) {
+        controlScreen.attackerFeedback.innerHTML = messages[message];
+    } else {
+        controlScreen.attackerFeedback.innerHTML = message;
+    }
+}
+function alertDefender(message) {
+    if (message in messages) {
+        controlScreen.defenderFeedback.innerHTML = messages[message];
+    } else {
+        controlScreen.defenderFeedback.innerHTML = message;
+    }
+}
+
+// Simulate the dice roll
 function random6() {
     return Math.floor(Math.random() * 6) + 1;
 }
 
+// handler of attackers actions
 function attack(armies) {
     if (attackerRolled) {
-        window.alert("Defending turn");
+        alertAttacker("Defending turn");
     } else {
         resetBoard();
         if (runningConquest) {
             //set next round number if active
             if (attackingArmy.units <= armies) {
-                window.alert("Not enough units");
+                alertAttacker("unitCount");
                 return;
             } else {
                 nextRound();
@@ -212,6 +240,7 @@ function attack(armies) {
     }
 }
 
+// handler of defenders actions
 function defend(armies) {
     //check if attacked and if attacked with >2
     if (attackerRolled) {
@@ -229,20 +258,18 @@ function defend(armies) {
     }
 }
 
-function showDefendTwo(boolean) {
+// remove second die if defender can't throw 2
+function showDefendTwo(request) {
     dom = document.getElementById("defend-two");
     // prevents turning on if conquest defender only has 1 unit
-    if (boolean && defendingArmy.units != 1) {
+    if (request && defendingArmy.units != 1) {
         dom.style.display = "inline-block";
-    } else if (!boolean) {
+    } else if (!request) {
         dom.style.display = "none";
     }
 }
 
-// false if attacker throws 1
-// true on attack
-// false if defender has 1 unit
-
+// remove thrown dice and casualties. Doesn't touch conquest.
 function resetBoard() {
     dice_d1.resetDice();
     dice_d2.resetDice();
@@ -256,19 +283,23 @@ function resetBoard() {
     attackerRolled = false;
     showDefendTwo(true);
 }
-function highestFirst(a, b) {
-    //sorting function
-    return b - a;
+
+// "If compareFunction(a, b) returns less than 0, sort a to an index lower than b."
+function highestFirst(list) {
+    list.sort((compareFunction = (a, b) => b - a));
+    return list;
 }
+
+// compare dice rolls to determine casualties
 function calculateResult() {
     //logic for deciding losses
     var attWinsRound1 = true;
     const attackerDice = new Array(dice_a1.value, dice_a2.value, dice_a3.value);
     const defenderDice = new Array(dice_d1.value, dice_d2.value);
-    attackerDice.sort(highestFirst);
-    defenderDice.sort(highestFirst);
-    attackerUnitsLost = 0; //these are not needed here, they are for
-    defenderUnitsLost = 0; //the logic of keeping track of conquests
+    highestFirst(attackerDice);
+    highestFirst(defenderDice);
+    attackerUnitsLost = 0;
+    defenderUnitsLost = 0;
 
     if (defenderDice[0] >= attackerDice[0]) {
         // determine first round
@@ -300,53 +331,66 @@ function calculateResult() {
     }
     attackerRolled = false;
 }
-// this part is for the logic of running Conquests
+// Start the conquest if requirements are met.
 function engageConquest() {
     if (!runningConquest) {
-        conquest.startstop.innerHTML = "Reset";
         if (
-            conquest.attackingUnits.value <= 1 ||
-            conquest.defendingUnits.value <= 0
+            controlScreen.attackingUnits.value > 1 &&
+            controlScreen.defendingUnits.value > 0
         ) {
-            window.alert("Input valid army sizes");
-        } else {
             setupConquest();
+            return;
+        }
+        if (controlScreen.attackingUnits.value <= 1) {
+            alertAttacker("invalidArmyCount");
+        }
+        if (controlScreen.defendingUnits.value <= 0) {
+            alertDefender("invalidArmyCount");
         }
     }
 }
 
-function stopConquest() {
-    runningConquest = false;
-    conquest.startstop.innerHTML = "Start";
-    // conquest.attackingUnits.value = "";
-    // conquest.defendingUnits.value = "";
-}
-
+// Set up army counts and logging variables.
 function setupConquest() {
     //setup the conquest
     resetBoard();
+    controlScreen.startstop.innerHTML = "Reset";
 
-    attackingArmy.units = conquest.attackingUnits.value;
-    defendingArmy.units = conquest.defendingUnits.value;
+    attackingArmy.units = controlScreen.attackingUnits.value;
+    defendingArmy.units = controlScreen.defendingUnits.value;
 
     turnCounter = 0;
     runningConquest = true;
 }
 
+// remove all conquest info from screen.
+function resetConquest() {
+    runningConquest = false;
+    controlScreen.startstop.innerHTML = "Start";
+    controlScreen.counter.innerHTML = "Round";
+    controlScreen.attackingUnits.value = "";
+    controlScreen.defendingUnits.value = "";
+    attackingArmy.units = 0;
+    defendingArmy.units = 0;
+}
+
+// update the conquest turncounter
 function nextRound() {
     turnCounter += 1;
-    document.getElementById("roundCounter").innerHTML = "Round " + turnCounter;
+    controlScreen.counter.innerHTML = "Round " + turnCounter;
 }
+
+// update the army unit counts.
 function calculateUnits() {
     attackingArmy.units -= attackerUnitsLost;
     defendingArmy.units -= defenderUnitsLost;
-    conquest.attackingUnits.value = attackingArmy.units;
-    conquest.defendingUnits.value = defendingArmy.units;
+    controlScreen.attackingUnits.value = attackingArmy.units;
+    controlScreen.defendingUnits.value = defendingArmy.units;
     if (defendingArmy.units === 1) {
         showDefendTwo(false);
     }
     if (attackingArmy.units <= 1 || defendingArmy.units <= 0) {
-        //attacker with 1 unit is done attacking
-        stopConquest();
+        //conquest is over. Handle results and reset board.
+        resetConquest();
     }
 }
